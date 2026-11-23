@@ -209,10 +209,13 @@
   .cta .stores { justify-content: center; margin-top: 24px; }
   .cta .intro { margin: 0 auto; }
 
-  footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--muted); font-size: 15px; }
-  footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: space-between; }
-  footer p { margin: 0 0 6px; max-width: 46em; }
-  footer .links a { margin-right: 18px; display: inline-block; }
+  /* Päta: všetko pod sebou v strede, aby sa text na počítači nezalamoval nepekne */
+  footer { border-top: 1px solid var(--line); padding: 36px 0 48px; color: var(--muted); font-size: 15px; line-height: 1.55; text-align: center; }
+  footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 26px; margin: 0 0 18px; padding: 0; list-style: none; }
+  footer .links a { text-decoration: none; font-weight: bold; white-space: nowrap; }
+  footer .links a:hover { text-decoration: underline; }
+  footer .credits { max-width: 34em; margin: 0 auto 14px; text-wrap: balance; }
+  footer .copy { margin: 0; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -405,15 +408,13 @@
 
 <footer>
   <div class="wrap">
-    <div>
-      <p class="links">
-        <a href="https://www.instagram.com/rosarioappka/">Instagram @rosarioappka</a>
-        <a href="zasady-sukromia.html">Zásady súkromia · Privacy Policy</a>
-        <a href="mailto:d_franka@icloud.com">Kontakt</a>
-      </p>
-      <p>Texty modlitieb sú prevzaté so súhlasom, najmä z modlitba.sk a milosrdenstvo.sk; zdroj je uvedený pri modlitbách v aplikácii. Obrazy sú voľne dostupné diela z Wikimedia Commons.</p>
-    </div>
-    <p>© 2026 Rosario</p>
+    <ul class="links">
+      <li><a href="https://www.instagram.com/rosarioappka/">Instagram @rosarioappka</a></li>
+      <li><a href="zasady-sukromia.html">Zásady súkromia</a></li>
+      <li><a href="zasady-sukromia.html#en" lang="en">Privacy Policy</a></li>
+    </ul>
+    <p class="credits">Texty modlitieb sú prevzaté so súhlasom, najmä z modlitba.sk a milosrdenstvo.sk. Zdroj je uvedený pri modlitbách v aplikácii. Obrazy sú voľne dostupné diela z Wikimedia Commons.</p>
+    <p class="copy">© 2026 Rosario</p>
   </div>
 </footer>
 
