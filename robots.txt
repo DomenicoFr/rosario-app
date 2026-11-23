@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://domenicofr.github.io/rosario-app/sitemap.xml

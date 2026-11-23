@@ -3,43 +3,425 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rosario – Svätý ruženec</title>
-<meta name="description" content="Bezplatná aplikácia na modlitbu svätého ruženca s novénami, litániami a ďalšími modlitbami. Bez reklám.">
+<title>Rosario – Svätý ruženec | modlitebná aplikácia zadarmo</title>
+<meta name="description" content="Rosario je bezplatná aplikácia na modlitbu svätého ruženca pre iPhone a Android. Rozjímania, novény, litánie, Korunka Božieho milosrdenstva, krížové cesty a spytovanie svedomia. Bez reklám, bez účtu, funguje aj bez internetu.">
+<link rel="canonical" href="https://domenicofr.github.io/rosario-app/">
+<meta name="theme-color" content="#F7F0E0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1A140F" media="(prefers-color-scheme: dark)">
+<meta name="apple-itunes-app" content="app-id=6828379016">
 <link rel="icon" href="ikona.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rosario – Svätý ruženec">
+<meta property="og:description" content="Bezplatná aplikácia na modlitbu ruženca a ďalších modlitieb. Bez reklám, funguje aj bez internetu.">
+<meta property="og:url" content="https://domenicofr.github.io/rosario-app/">
+<meta property="og:image" content="https://domenicofr.github.io/rosario-app/ikona.png">
+<meta property="og:locale" content="sk_SK">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "Rosario – Svätý ruženec",
+  "operatingSystem": "iOS, Android",
+  "applicationCategory": "LifestyleApplication",
+  "inLanguage": ["sk", "en", "hu"],
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+  "url": "https://domenicofr.github.io/rosario-app/",
+  "sameAs": [
+    "https://apps.apple.com/sk/app/id6828379016",
+    "https://play.google.com/store/apps/details?id=sk.rosario.app",
+    "https://www.instagram.com/rosarioappka/"
+  ]
+}
+</script>
 <style>
-  body { font-family: Georgia, serif; max-width: 640px; margin: 0 auto; padding: 40px 16px 48px; line-height: 1.6; color: #2b2b2b; background: #f7f0e0; text-align: center; }
-  img { width: 140px; height: 140px; border-radius: 30px; box-shadow: 0 6px 20px rgba(107, 66, 33, 0.25); }
-  h1 { color: #6b4221; font-size: 2.4em; margin: 20px 0 0; }
-  .sub { color: #6b4221; font-size: 1.2em; margin-top: 0; }
-  .tags { color: #9e6b00; font-style: italic; }
-  ul { text-align: left; display: inline-block; padding-left: 20px; }
-  footer { margin-top: 48px; font-size: 0.9em; color: #777; }
-  a { color: #6b4221; }
-  .store { margin: 28px 0 8px; }
-  .store img { width: auto; height: 54px; border-radius: 0; box-shadow: none; }
-  .soon { color: #6b4221; font-style: italic; margin-top: 0; }
+  :root {
+    --bg: #F7F0E0;
+    --card: #FFFCF5;
+    --text: #2B2118;
+    --muted: rgba(60, 60, 67, 0.66);
+    --accent: #6B4221;
+    --gold: #9E6B00;
+    --line: rgba(60, 60, 67, 0.12);
+    --chip: #EFE4CF;
+    --shadow: 0 1px 0 rgba(107, 66, 33, 0.08), 0 10px 30px -12px rgba(107, 66, 33, 0.28);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1A140F;
+      --card: #2B241C;
+      --text: #F3EBDF;
+      --muted: rgba(235, 235, 245, 0.62);
+      --accent: #D6A875;
+      --gold: #FFD14D;
+      --line: rgba(255, 255, 255, 0.12);
+      --chip: #382E24;
+      --shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Georgia, "Noto Serif", "Times New Roman", serif;
+    font-size: 18px; line-height: 1.6;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--accent); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  /* Hlavička */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  header .wrap { display: flex; align-items: center; gap: 12px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-weight: bold; font-size: 22px; }
+  .brand img { width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+  nav { margin-left: auto; display: flex; gap: 22px; align-items: center; }
+  nav a { text-decoration: none; color: var(--muted); font-size: 16px; }
+  nav a:hover { color: var(--accent); }
+  .btn {
+    display: inline-block; background: var(--accent); color: var(--bg) !important;
+    padding: 8px 18px; border-radius: 999px; font-weight: bold; text-decoration: none; font-size: 16px;
+  }
+  nav .ig {
+    display: flex; align-items: center; gap: 6px; color: var(--accent); font-weight: bold;
+    border: 1.5px solid var(--accent); border-radius: 999px; padding: 6px 14px;
+  }
+  nav .ig svg { width: 24px; height: 24px; padding: 3px; border-radius: 7px; color: #fff;
+    background: linear-gradient(45deg, #F9A825, #E1306C 55%, #833AB4); }
+  @media (max-width: 420px) { nav .ig span { display: none; } nav .ig { padding: 7px; } }
+  .ig-hero {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
+    background: var(--card); box-shadow: var(--shadow); border-radius: 999px;
+    padding: 10px 20px 10px 12px; text-decoration: none; color: var(--text); font-size: 17px;
+  }
+  .ig-hero b { color: var(--accent); }
+  .ig-hero svg { width: 34px; height: 34px; padding: 6px; border-radius: 10px; color: #fff;
+    background: linear-gradient(45deg, #F9A825, #E1306C 55%, #833AB4); }
+  @media (max-width: 720px) { nav a:not(.btn):not(.ig) { display: none; } }
+  .follow { margin-top: 28px; font-size: 17px; }
+  .follow a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold; }
+  .follow svg { width: 26px; height: 26px; padding: 4px; border-radius: 8px; color: #fff;
+    background: linear-gradient(45deg, #F9A825, #E1306C 55%, #833AB4); }
+
+  /* Úvod */
+  .hero { padding: 64px 0 40px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  .eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: .14em; font-size: 14px; font-weight: bold; margin: 0 0 10px; }
+  h1 { font-size: clamp(42px, 6.6vw, 72px); line-height: 1.04; margin: 0 0 18px; }
+  h1 span { color: var(--accent); }
+  .lead { font-size: 21px; color: var(--muted); margin: 0 0 28px; max-width: 34em; }
+  .stores { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .stores img { height: 54px; width: auto; }
+  .ticks { list-style: none; padding: 0; margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); font-size: 16px; }
+  .ticks li::before { content: "✓"; color: var(--gold); font-weight: bold; margin-right: 6px; }
+  .phone {
+    width: min(320px, 78vw); margin: 0 auto; border-radius: 44px; padding: 10px;
+    background: #1d1713; box-shadow: 0 30px 60px -25px rgba(60, 35, 10, .55);
+  }
+  .phone img { border-radius: 34px; }
+  @media (max-width: 820px) {
+    .hero { padding-top: 40px; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+    .lead { margin-left: auto; margin-right: auto; }
+    .stores, .ticks { justify-content: center; }
+  }
+
+  /* Časti */
+  section { padding: 56px 0; }
+  h2 { font-size: clamp(30px, 4.2vw, 42px); line-height: 1.15; margin: 0 0 12px; }
+  .intro { color: var(--muted); max-width: 40em; margin: 0 0 32px; }
+
+  /* Ružence */
+  .rosaries { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .mystery {
+    position: relative; aspect-ratio: 3 / 4; border-radius: 24px; overflow: hidden;
+    box-shadow: var(--shadow); background: #222; margin: 0;
+  }
+  .mystery img { width: 100%; height: 100%; object-fit: cover; }
+  .mystery::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,10,5,.88) 0%, rgba(15,10,5,.15) 55%, transparent 75%); }
+  .mystery div { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 1; color: #fff; }
+  .mystery small { display: block; color: #FFD14D; text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: bold; }
+  .mystery strong { display: block; font-size: 22px; line-height: 1.2; }
+  .today { position: absolute; top: 14px; left: 14px; z-index: 1; background: #fff; color: #6B4221; font-size: 13px; font-weight: bold; padding: 3px 12px; border-radius: 999px; display: none; }
+  .mystery.is-today .today { display: block; }
+  @media (max-width: 820px) { .rosaries { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 420px) { .mystery strong { font-size: 19px; } .mystery div { left: 14px; right: 14px; } }
+
+  /* Modlitby */
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .feature { background: var(--card); border-radius: 22px; padding: 22px 22px 20px; box-shadow: var(--shadow); }
+  .feature svg { width: 44px; height: 44px; margin-bottom: 10px; }
+  .feature h3 { margin: 0 0 6px; font-size: 20px; }
+  .feature p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.5; }
+  @media (max-width: 900px) { .features { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .features { grid-template-columns: 1fr; } }
+
+  /* Svätí */
+  .saints { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .paintings { display: grid; grid-template-columns: 1.15fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; height: 460px; }
+  .paintings img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; box-shadow: var(--shadow); }
+  .paintings img:first-child { grid-row: span 2; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+  .chips li { background: var(--chip); color: var(--accent); padding: 5px 14px; border-radius: 999px; font-size: 15px; }
+  @media (max-width: 820px) {
+    .saints { grid-template-columns: 1fr; }
+    .paintings { height: 380px; }
+  }
+
+  /* Snímky */
+  .shots {
+    display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 6px 20px 24px; margin: 0 -20px; scrollbar-width: none;
+  }
+  .shots::-webkit-scrollbar { display: none; }
+  .shots figure { flex: 0 0 auto; width: 230px; margin: 0; scroll-snap-align: center; text-align: center; }
+  .shots .phone { width: 100%; border-radius: 34px; padding: 7px; }
+  .shots .phone img { border-radius: 28px; }
+  .shots figcaption { margin-top: 12px; color: var(--muted); font-size: 15px; }
+  @media (min-width: 1040px) { .shots { justify-content: center; } }
+
+  /* Súkromie */
+  .privacy {
+    background: var(--card); border-radius: 28px; padding: 40px; box-shadow: var(--shadow);
+    display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center;
+  }
+  .privacy svg { width: 76px; height: 76px; }
+  .privacy p { margin: 0 0 10px; color: var(--muted); }
+  .privacy p:last-child { margin: 0; }
+  @media (max-width: 640px) { .privacy { grid-template-columns: 1fr; padding: 28px 22px; } }
+
+  /* Jazyky */
+  .langs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .lang { border: 1px solid var(--line); border-radius: 22px; padding: 20px 22px; }
+  .lang h3 { margin: 0 0 4px; font-size: 20px; }
+  .lang p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.5; }
+  @media (max-width: 760px) { .langs { grid-template-columns: 1fr; } }
+
+  /* Záver */
+  .cta { text-align: center; padding: 72px 0 64px; }
+  .cta img.logo { width: 96px; height: 96px; border-radius: 24px; margin: 0 auto 20px; box-shadow: var(--shadow); }
+  .cta .stores { justify-content: center; margin-top: 24px; }
+  .cta .intro { margin: 0 auto; }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--muted); font-size: 15px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: space-between; }
+  footer p { margin: 0 0 6px; max-width: 46em; }
+  footer .links a { margin-right: 18px; display: inline-block; }
 </style>
 </head>
 <body>
-<img src="ikona.png" alt="Logo aplikácie Rosario">
-<h1>Rosario</h1>
-<p class="sub">Modlitba posvätného ruženca</p>
-<p class="tags">Zadarmo · bez reklám · funguje aj bez internetu</p>
 
-<ul>
-  <li>Všetky štyri ružence s obrazmi, zamysleniami a evanjeliom</li>
-  <li>Rímskokatolícky aj gréckokatolícky obrad</li>
-  <li>Pompejská novéna s počítaním dní a pripomienkami</li>
-  <li>Ďalšie novény, litánie, Korunka Božieho milosrdenstva, akatisty a molebeny</li>
-  <li>Krížové cesty, spytovanie svedomia a modlitby k svätým</li>
-</ul>
+<header>
+  <div class="wrap">
+    <a class="brand" href="./"><img src="ikona.png" alt="" width="38" height="38">Rosario</a>
+    <nav>
+      <a href="#ruzence">Ružence</a>
+      <a href="#modlitby">Modlitby</a>
+      <a href="#sukromie">Súkromie</a>
+      <a class="ig" href="https://www.instagram.com/rosarioappka/" aria-label="Rosario na Instagrame"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg><span>Instagram</span></a>
+      <a class="btn" href="#stiahnut">Stiahnuť</a>
+    </nav>
+  </div>
+</header>
 
-<p class="store"><a href="https://apps.apple.com/app/id6828379016"><img src="app-store.svg" alt="Download on the App Store"></a></p>
-<p class="soon">Android už čoskoro v Google Play</p>
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Modlitebná aplikácia</p>
+      <h1>Svätý ruženec <span>vždy po ruke</span></h1>
+      <p class="lead">Rosario vás pokojne prevedie modlitbou ruženca, desiatok po desiatku, s obrazom, zamyslením a evanjeliom ku každému tajomstvu. K tomu novény, litánie a ďalšie modlitby.</p>
+      <div class="stores">
+        <a href="https://apps.apple.com/sk/app/id6828379016"><img src="obrazky/app-store.png" alt="Stiahnuť na App Store" width="161" height="54"></a>
+        <a href="https://play.google.com/store/apps/details?id=sk.rosario.app&amp;hl=sk"><img src="obrazky/google-play.png" alt="Získajte to na Google Play" width="140" height="54"></a>
+      </div>
+      <ul class="ticks">
+        <li>Zadarmo</li>
+        <li>Bez reklám</li>
+        <li>Bez účtu</li>
+        <li>Funguje aj bez internetu</li>
+      </ul>
+      <a class="ig-hero" href="https://www.instagram.com/rosarioappka/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg><span>Sledujte nás na Instagrame <b>@rosarioappka</b></span></a>
+    </div>
+    <div class="phone"><img src="obrazky/snimka-domov.jpg" alt="Domovská obrazovka aplikácie Rosario s dnešným ružencom" width="603" height="1311"></div>
+  </div>
+</section>
+
+<section id="ruzence">
+  <div class="wrap">
+    <h2>Štyri ružence</h2>
+    <p class="intro">Na úvodnej obrazovke vždy čaká ruženec na dnešný deň. Ku každému tajomstvu je obraz od starých majstrov, krátke zamyslenie a úryvok z evanjelia. Modliť sa dá v rímskokatolíckom aj gréckokatolíckom obrade.</p>
+    <div class="rosaries">
+      <figure class="mystery" data-days="1 6">
+        <img src="obrazky/radostny.jpg" alt="Zvestovanie Pána, Fra Angelico" loading="lazy" style="object-position: 85% 50%">
+        <span class="today">Dnes</span>
+        <div><small>Pondelok a sobota</small><strong>Radostný ruženec</strong></div>
+      </figure>
+      <figure class="mystery" data-days="4">
+        <img src="obrazky/svetla.jpg" alt="Krst Pána, Verrocchio a Leonardo da Vinci" loading="lazy" style="object-position: 50% 20%">
+        <span class="today">Dnes</span>
+        <div><small>Štvrtok</small><strong>Ruženec svetla</strong></div>
+      </figure>
+      <figure class="mystery" data-days="2 5">
+        <img src="obrazky/bolestny.jpg" alt="Ježiš v Getsemanskej záhrade, Carl Bloch" loading="lazy">
+        <span class="today">Dnes</span>
+        <div><small>Utorok a piatok</small><strong>Bolestný ruženec</strong></div>
+      </figure>
+      <figure class="mystery" data-days="0 3">
+        <img src="obrazky/slavnostny.jpg" alt="Zmŕtvychvstanie Pána" loading="lazy">
+        <span class="today">Dnes</span>
+        <div><small>Streda a nedeľa</small><strong>Slávnostný ruženec</strong></div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="modlitby">
+  <div class="wrap">
+    <h2>A mnoho ďalších modlitieb</h2>
+    <p class="intro">Všetko je prehľadne v zložkách a dá sa rýchlo nájsť podľa názvu aj podľa slov z textu.</p>
+    <div class="features">
+      <div class="feature">
+        <svg viewBox="0 0 48 48" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="18" y="20" width="12" height="20" rx="2"/><path d="M14 40h20"/><path d="M24 7c-4 4-4 8 0 10 4-2 4-6 0-10z" fill="var(--gold)" stroke="var(--gold)"/></svg>
+        <h3>Novény</h3>
+        <p>Pompejská novéna na 54 dní s počítaním dní a pripomienkami, novéna odovzdanosti, k sv. Júdovi Tadeášovi, k Panne Márii Rozväzovačke uzlov a pobožnosti sv. Brigity.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 48 48" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="12" r="6"/><path d="M14 44l4-22h12l4 22"/><path d="M18 22l-8 22M30 22l8 22" stroke="var(--gold)"/></svg>
+        <h3>Božie milosrdenstvo</h3>
+        <p>Korunka Božieho milosrdenstva a krátke články o posolstve svätej sestry Faustíny.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 48 48" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 12c-5-4-12-4-17-2v28c5-2 12-2 17 2 5-4 12-4 17-2V10c-5-2-12-2-17 2z"/><path d="M24 12v28" stroke="var(--gold)"/></svg>
+        <h3>Litánie a modlitby</h3>
+        <p>Loretánske litánie, litánie k Božskému Srdcu, k sv. Jozefovi a ďalším svätým, Anjel Pána, Duša Kristova, Te Deum a mnohé iné.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 48 48" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4v40M18 10h12M14 18h20M18 32l12-5"/></svg>
+        <h3>Gréckokatolícky obrad</h3>
+        <p>Ruženec podľa východného obradu, akatisty a molebeny. Modlitby ruženca aj v cirkevnej slovančine.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 48 48" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 8v30M18 15h12"/><path d="M10 20v18M6 25h8M38 20v18M34 25h8"/><path d="M4 42c8-5 32-5 40 0" stroke="var(--gold)"/></svg>
+        <h3>Krížové cesty</h3>
+        <p>Krátka krížová cesta, s Bolestnou Matkou, so sv. Faustínou a so sv. Pátrom Piom.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 48 48" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 41s-15-9-15-21a8 8 0 0 1 15-4 8 8 0 0 1 15 4c0 12-15 21-15 21z"/><path d="M18 23l4 4 8-9" stroke="var(--gold)"/></svg>
+        <h3>Spytovanie svedomia</h3>
+        <p>Ako sa vyspovedať, spytovanie pre dospelých aj pre deti. Poznámky na spoveď ostávajú len v telefóne a dajú sa natrvalo vymazať.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap saints">
+    <div class="paintings">
+      <img src="obrazky/korunovanie.jpg" alt="Korunovanie Panny Márie, Diego Velázquez" loading="lazy">
+      <img src="obrazky/letnice.jpg" alt="Zoslanie Ducha Svätého, El Greco" loading="lazy" style="object-position: 50% 28%">
+      <img src="obrazky/ikona-zvestovanie.jpg" alt="Ikona Zvestovania Pána" loading="lazy" style="object-position: 75% 45%">
+    </div>
+    <div>
+      <h2>S Pannou Máriou a svätými</h2>
+      <p class="intro" style="margin-bottom: 0">Okrem štyroch ružencov aj ruženec oslobodenia, k Sedembolestnej Panne Márii, k slzám Panny Márie a modlitby k svätým, ktorých ľudia prosia o pomoc. Každý deň appka pripomenie sviatok alebo svätého dňa podľa vášho obradu.</p>
+      <ul class="chips">
+        <li>sv. Jozef</li>
+        <li>sv. Michal archanjel</li>
+        <li>sv. Júda Tadeáš</li>
+        <li>sv. Rita</li>
+        <li>sv. Anton</li>
+        <li>sv. Šarbel</li>
+        <li>sv. Páter Pio</li>
+        <li>sv. Faustína</li>
+        <li>sv. Cyril a Metod</li>
+        <li>sv. Ján Pavol II.</li>
+        <li>sv. Katarína Labouré</li>
+        <li>anjel strážca</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Jednoduchá a pokojná</h2>
+    <p class="intro">Písmo si zväčšíte podľa seba, večer sa môžete modliť v tmavom režime a appka nevydáva žiadne zvuky, takže ju pokojne použijete aj v kostole.</p>
+    <div class="shots">
+      <figure><div class="phone"><img src="obrazky/snimka-desiatok.jpg" alt="Modlitba desiatku" loading="lazy" width="603" height="1311"></div><figcaption>Desiatok po desiatku</figcaption></figure>
+      <figure><div class="phone"><img src="obrazky/snimka-novena.jpg" alt="Pompejská novéna" loading="lazy" width="603" height="1311"></div><figcaption>Pompejská novéna</figcaption></figure>
+      <figure><div class="phone"><img src="obrazky/snimka-dalsie.jpg" alt="Ďalšie modlitby v zložkách" loading="lazy" width="603" height="1311"></div><figcaption>Ďalšie modlitby</figcaption></figure>
+      <figure><div class="phone"><img src="obrazky/snimka-spoved.jpg" alt="Spytovanie svedomia" loading="lazy" width="603" height="1311"></div><figcaption>Príprava na spoveď</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="sukromie">
+  <div class="wrap">
+    <div class="privacy">
+      <svg viewBox="0 0 48 48" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 4l16 6v12c0 10-7 18-16 22C15 40 8 32 8 22V10z"/><rect x="17" y="21" width="14" height="11" rx="2" stroke="var(--gold)"/><path d="M20 21v-3a4 4 0 0 1 8 0v3" stroke="var(--gold)"/></svg>
+      <div>
+        <h2>Vaša modlitba patrí len vám</h2>
+        <p>Rosario je úplne zadarmo, bez reklám, bez účtu a bez sledovania. Nič neposiela z vášho telefónu a funguje aj bez internetu, napríklad v kostole bez signálu.</p>
+        <p><a href="zasady-sukromia.html">Zásady ochrany súkromia</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>V troch jazykoch</h2>
+    <p class="intro">Jazyk aj obrad si vyberiete pri prvom otvorení a kedykoľvek ich zmeníte v Nastaveniach.</p>
+    <div class="langs">
+      <div class="lang"><h3>Slovensky</h3><p>Všetky ružence a modlitby, rímskokatolícky aj gréckokatolícky obrad. Modlitby ruženca aj po latinsky alebo v cirkevnej slovančine.</p></div>
+      <div class="lang" lang="en"><h3>English</h3><p>The Holy Rosary for Roman and Byzantine Catholics, with the prayers also in Latin or Church Slavonic.</p></div>
+      <div class="lang" lang="hu"><h3>Magyarul</h3><p>A szent rózsafüzér, az Isteni Irgalmasság rózsafüzére és a pompeji novéna.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="stiahnut">
+  <div class="wrap">
+    <img class="logo" src="ikona.png" alt="Ikona aplikácie Rosario" width="96" height="96">
+    <h2>Stiahnite si Rosario</h2>
+    <p class="intro">Pre iPhone, iPad a telefóny s Androidom. Zadarmo.</p>
+    <div class="stores">
+      <a href="https://apps.apple.com/sk/app/id6828379016"><img src="obrazky/app-store.png" alt="Stiahnuť na App Store" width="161" height="54"></a>
+      <a href="https://play.google.com/store/apps/details?id=sk.rosario.app&amp;hl=sk"><img src="obrazky/google-play.png" alt="Získajte to na Google Play" width="140" height="54"></a>
+    </div>
+    <p class="follow">Sledujte nás aj na Instagrame: <a href="https://www.instagram.com/rosarioappka/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>@rosarioappka</a></p>
+  </div>
+</section>
+
+</main>
 
 <footer>
-  <a href="zasady-sukromia.html">Zásady ochrany súkromia · Privacy Policy</a><br>
-  Kontakt: <a href="mailto:d_franka@icloud.com">d_franka@icloud.com</a>
+  <div class="wrap">
+    <div>
+      <p class="links">
+        <a href="https://www.instagram.com/rosarioappka/">Instagram @rosarioappka</a>
+        <a href="zasady-sukromia.html">Zásady súkromia · Privacy Policy</a>
+        <a href="mailto:d_franka@icloud.com">Kontakt</a>
+      </p>
+      <p>Texty modlitieb sú prevzaté so súhlasom, najmä z modlitba.sk a milosrdenstvo.sk; zdroj je uvedený pri modlitbách v aplikácii. Obrazy sú voľne dostupné diela z Wikimedia Commons.</p>
+    </div>
+    <p>© 2026 Rosario</p>
+  </div>
 </footer>
+
+<script>
+  // Označí ruženec, ktorý sa modlí dnes
+  var d = String(new Date().getDay());
+  document.querySelectorAll('.mystery').forEach(function (el) {
+    if (el.dataset.days.split(' ').indexOf(d) >= 0) el.classList.add('is-today');
+  });
+</script>
 </body>
 </html>
