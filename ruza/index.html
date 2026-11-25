@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Stránka ruže je len pre ľudí s odkazom od horliteľa, nie pre vyhľadávače -->
 <meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<!-- Náhľad odkazu vo WhatsAppe a správach; údaje ruže za # sa sem nikdy nedostanú -->
+<meta property="og:title" content="Ruža – Živý ruženec">
+<meta property="og:description" content="Ktoré tajomstvo ruženca sa tento mesiac modlíte. Otvorte v aplikácii Rosario.">
+<meta property="og:image" content="https://domenicofr.github.io/rosario-app/apple-touch-icon.png">
+<meta property="og:type" content="website">
 <title>Ruža – Živý ruženec · Rosario</title>
 <link rel="icon" href="../ikona.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
@@ -69,6 +75,8 @@
   .title { flex: 1; }
   .who { display: block; font-weight: bold; }
   .free { color: var(--muted); font-style: italic; font-weight: normal; }
+  .missing { color: var(--rose); font-weight: bold; margin: 0 0 12px; }
+  .small { font-size: 15px; margin-top: 14px; }
   .notice { border-left: 5px solid var(--gold); }
   .error { border-left: 5px solid var(--rose); }
   footer { margin-top: 34px; color: var(--muted); font-size: 16px; }
@@ -119,19 +127,37 @@
     return m ? (+m[3]) + '. ' + (+m[2]) + '. ' + m[1] : null;
   }
 
-  // Údaje za # sú base64url z UTF-8 JSON (rovnako ako Rose.encode v aplikácii)
-  function decode(data) {
+  // Údaje za # sú base64url z UTF-8 JSON (rovnako ako Rose.encode v aplikácii); so značkou „z.“ sú
+  // ešte zbalené (deflate), aby bol odkaz kratší. Výsledok príde cez callback (rozbalenie je asynchrónne).
+  function decode(data, done) {
+    var packed = data.indexOf('z.') === 0;
+    if (packed) data = data.substring(2);
+    var bytes;
     try {
       var b64 = data.replace(/-/g, '+').replace(/_/g, '/');
       while (b64.length % 4) b64 += '=';
       var binary = atob(b64);
-      var bytes = new Uint8Array(binary.length);
+      bytes = new Uint8Array(binary.length);
       for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-      var json = JSON.parse(new TextDecoder('utf-8').decode(bytes));
-      if (!json || typeof json.id !== 'string' || !Array.isArray(json.m)) return null;
-      return json;
     } catch (e) {
-      return null;
+      return done(null);
+    }
+    function parse(raw) {
+      try {
+        var json = JSON.parse(new TextDecoder('utf-8').decode(raw));
+        if (!json || typeof json.id !== 'string' || !Array.isArray(json.m)) return done(null);
+        done(json);
+      } catch (e) {
+        done(null);
+      }
+    }
+    if (!packed) return parse(bytes);
+    if (typeof DecompressionStream === 'undefined') return done(null, true);
+    try {
+      var stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+      new Response(stream).arrayBuffer().then(function (buffer) { parse(new Uint8Array(buffer)); }, function () { done(null); });
+    } catch (e) {
+      done(null, true);
     }
   }
 
@@ -164,8 +190,53 @@
       'Otvorte odkaz, ktorý vám poslal horliteľ vašej ruže (napríklad cez WhatsApp alebo SMS). Ukáže sa v ňom, ktoré tajomstvo sa modlíte.');
     return;
   }
-  var rose = decode(data);
+  // Tlačidlo, ktoré otvorí ružu v aplikácii; údaje idú v ?d=, lebo intent:// používa # pre seba
+  var android = /Android/i.test(navigator.userAgent);
+  var appUrl = android
+    ? 'intent://ruza?d=' + data + '#Intent;scheme=rosario;package=sk.rosario.app;S.browser_fallback_url=' + encodeURIComponent(GOOGLE_PLAY) + ';end'
+    : 'rosario://ruza?d=' + data;
+
+  function openCard(lead) {
+    var open = el('div', 'card' + (lead ? ' notice' : ''));
+    if (lead) {
+      open.appendChild(el('p', null, 'Tento odkaz slúži na odovzdanie ruže novému horliteľovi.')).style.fontWeight = 'bold';
+      open.appendChild(el('p', 'hint', 'Otvorte ho v telefóne nového horliteľa. Ruža sa uloží do aplikácie Rosario a dá sa v nej upravovať.'));
+    }
+    var button = el('a', 'open', 'Otvoriť v aplikácii Rosario');
+    button.href = appUrl;
+    open.appendChild(button);
+    var missing = el('p', 'hint missing', 'Aplikácia sa neotvorila? Najprv si ju stiahnite alebo aktualizujte na najnovšiu verziu a potom ťuknite na odkaz v správe znova.');
+    missing.hidden = true;
+    open.appendChild(missing);
+    // iPhone nevie sám prejsť do obchodu, keď appku nemá: ak stránka po chvíli stále svieti, poradíme
+    button.addEventListener('click', function () {
+      var left = false;
+      function away() { left = true; }
+      document.addEventListener('visibilitychange', away, { once: true });
+      window.addEventListener('pagehide', away, { once: true });
+      window.addEventListener('blur', away, { once: true });
+      setTimeout(function () {
+        if (left || document.hidden) return;
+        missing.hidden = false;
+        missing.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 1800);
+    });
+    open.appendChild(el('p', 'hint', 'Ak aplikáciu ešte nemáte alebo máte staršiu verziu, stiahnite si ju zadarmo a potom ťuknite na odkaz znova:'));
+    open.appendChild(stores());
+    open.appendChild(el('p', 'hint small', 'Ak ste odkaz otvorili vo Facebooku alebo Messengeri a tlačidlo nefunguje, otvorte stránku v prehliadači (Safari alebo Chrome).'));
+    return open;
+  }
+
+  decode(data, show);
+
+  function show(rose, oldBrowser) {
   if (!rose) {
+    if (oldBrowser) {
+      showMessage('notice', 'Tento prehliadač ružu neukáže.',
+        'Ruža sa však dá otvoriť priamo v aplikácii Rosario tlačidlom nižšie.');
+      main.insertBefore(openCard(false), main.querySelector('.card').nextSibling);
+      return;
+    }
     showMessage('error', 'Tento odkaz sa nedá prečítať.',
       'Možno sa pri kopírovaní neskopíroval celý. Poproste horliteľa, aby vám ho poslal znova.');
     return;
@@ -182,23 +253,7 @@
   if (next) { dates.appendChild(document.createTextNode((since ? ' · ' : '') + 'ďalšia výmena ')); dates.appendChild(el('b', null, next)); }
   if (since || next) main.appendChild(dates);
 
-  // Tlačidlo, ktoré otvorí ružu v aplikácii; údaje idú v ?d=, lebo intent:// používa # pre seba
-  var android = /Android/i.test(navigator.userAgent);
-  var appUrl = android
-    ? 'intent://ruza?d=' + data + '#Intent;scheme=rosario;package=sk.rosario.app;S.browser_fallback_url=' + encodeURIComponent(GOOGLE_PLAY) + ';end'
-    : 'rosario://ruza?d=' + data;
-
-  var open = el('div', 'card' + (lead ? ' notice' : ''));
-  if (lead) {
-    open.appendChild(el('p', null, 'Tento odkaz slúži na odovzdanie ruže novému horliteľovi.')).style.fontWeight = 'bold';
-    open.appendChild(el('p', 'hint', 'Otvorte ho v telefóne nového horliteľa. Ruža sa uloží do aplikácie Rosario a dá sa v nej upravovať.'));
-  }
-  var button = el('a', 'open', 'Otvoriť v aplikácii Rosario');
-  button.href = appUrl;
-  open.appendChild(button);
-  open.appendChild(el('p', 'hint', 'Ak aplikáciu ešte nemáte, stiahnite si ju zadarmo a potom ťuknite na odkaz znova:'));
-  open.appendChild(stores());
-  main.appendChild(open);
+  main.appendChild(openCard(lead));
 
   if (Array.isArray(rose.u) && rose.u.length) {
     main.appendChild(el('h2', null, 'Úmysly'));
@@ -235,6 +290,7 @@
     all.appendChild(box);
   });
   main.appendChild(all);
+  }
 })();
 </script>
 </body>
