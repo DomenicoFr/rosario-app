@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Stránka ruže je len pre ľudí s odkazom od horliteľa, nie pre vyhľadávače -->
+<meta name="robots" content="noindex">
+<title>Ruža – Živý ruženec · Rosario</title>
+<link rel="icon" href="../ikona.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+  :root {
+    --bg: #F7F0E0;
+    --card: #FFFCF5;
+    --text: #2B2118;
+    --muted: rgba(60, 60, 67, 0.66);
+    --accent: #6B4221;
+    --gold: #9E6B00;
+    --rose: #B82842;
+    --line: rgba(60, 60, 67, 0.12);
+    --chip: #EFE4CF;
+    --shadow: 0 1px 0 rgba(107, 66, 33, 0.08), 0 10px 30px -12px rgba(107, 66, 33, 0.28);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1A140F;
+      --card: #2B241C;
+      --text: #F3EBDF;
+      --muted: rgba(235, 235, 245, 0.62);
+      --accent: #D6A875;
+      --gold: #FFD14D;
+      --rose: #F07F92;
+      --line: rgba(255, 255, 255, 0.12);
+      --chip: #382E24;
+      --shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Georgia, "Noto Serif", "Times New Roman", serif;
+    font-size: 20px; line-height: 1.55;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 18px 48px; }
+  header { display: flex; align-items: center; gap: 10px; padding: 16px 0 8px; }
+  header a { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-weight: bold; font-size: 22px; }
+  header img { width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+  .eyebrow { color: var(--rose); text-transform: uppercase; letter-spacing: .12em; font-size: 15px; font-weight: bold; margin: 22px 0 4px; }
+  h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; }
+  .dates { color: var(--muted); margin: 0 0 20px; }
+  .dates b { color: var(--text); }
+  .card { background: var(--card); border-radius: 16px; box-shadow: var(--shadow); padding: 18px 20px; margin: 0 0 18px; }
+  .open {
+    display: block; text-align: center; background: var(--accent); color: var(--bg); text-decoration: none;
+    font-weight: bold; font-size: 22px; padding: 16px 20px; border-radius: 999px; margin: 6px 0 12px;
+  }
+  .hint { color: var(--muted); font-size: 17px; margin: 0; }
+  .stores { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; margin-top: 14px; }
+  .stores img { height: 54px; width: auto; display: block; }
+  h2 { font-size: 23px; margin: 26px 0 10px; }
+  ul.intentions { margin: 0; padding-left: 1.2em; }
+  .group { margin: 0 0 14px; }
+  .group h3 { font-size: 18px; text-transform: uppercase; letter-spacing: .06em; color: var(--gold); margin: 0 0 6px; }
+  .row { display: flex; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); }
+  .row:first-of-type { border-top: none; }
+  .num { flex: 0 0 1.6em; font-weight: bold; color: var(--rose); }
+  .title { flex: 1; }
+  .who { display: block; font-weight: bold; }
+  .free { color: var(--muted); font-style: italic; font-weight: normal; }
+  .notice { border-left: 5px solid var(--gold); }
+  .error { border-left: 5px solid var(--rose); }
+  footer { margin-top: 34px; color: var(--muted); font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a href="../"><img src="../ikona.png" alt="" width="38" height="38">Rosario</a></header>
+
+  <main id="obsah">
+    <p class="eyebrow">Ruža – Živý ruženec</p>
+    <h1>Ruža</h1>
+    <noscript><div class="card error">Na zobrazenie ruže treba v prehliadači zapnúť JavaScript.</div></noscript>
+  </main>
+
+  <footer>
+    <p>Zoznam ruže je len v odkaze, ktorý vám poslal horliteľ. Táto stránka ho ukáže priamo vo vašom telefóne a nikam ho neposiela.
+    <a href="../zasady-sukromia.html">Zásady ochrany súkromia</a></p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var APP_STORE = 'https://apps.apple.com/sk/app/id6828379016';
+  var GOOGLE_PLAY = 'https://play.google.com/store/apps/details?id=sk.rosario.app&hl=sk';
+
+  // Tajomstvá rímskeho ruženca v poradí ruže (rovnaké ako v aplikácii, sk_roman)
+  var GROUPS = [
+    ['Radostný ruženec', 'radostné', ['Zvestovanie Panne Márii', 'Navštívenie Alžbety', 'Narodenie Ježiša', 'Obetovanie Ježiša v chráme', 'Nájdenie Ježiša v chráme']],
+    ['Ruženec svetla', 'svetla', ['Krst Ježiša v Jordáne', 'Svadba v Káne', 'Hlásanie Božieho kráľovstva', 'Premenenie Ježiša na vrchu', 'Ustanovenie Eucharistie']],
+    ['Bolestný ruženec', 'bolestné', ['Ježiš sa modlí v Getsemanskej záhrade', 'Ježiš je bičovaný', 'Ježiš je korunovaný tŕním', 'Ježiš nesie kríž', 'Ježiš je ukrižovaný']],
+    ['Slávnostný ruženec', 'slávnostné', ['Zmŕtvychvstanie Ježiša', 'Nanebovstúpenie Ježiša', 'Zoslanie Ducha Svätého', 'Nanebovzatie Panny Márie', 'Korunovanie Panny Márie']]
+  ];
+
+  var main = document.getElementById('obsah');
+
+  function el(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    // Mená a úmysly sa vkladajú len ako text, nikdy ako HTML
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  // "2026-12-06" → "6. 12. 2026"
+  function formatDate(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    return m ? (+m[3]) + '. ' + (+m[2]) + '. ' + m[1] : null;
+  }
+
+  // Údaje za # sú base64url z UTF-8 JSON (rovnako ako Rose.encode v aplikácii)
+  function decode(data) {
+    try {
+      var b64 = data.replace(/-/g, '+').replace(/_/g, '/');
+      while (b64.length % 4) b64 += '=';
+      var binary = atob(b64);
+      var bytes = new Uint8Array(binary.length);
+      for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      var json = JSON.parse(new TextDecoder('utf-8').decode(bytes));
+      if (!json || typeof json.id !== 'string' || !Array.isArray(json.m)) return null;
+      return json;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function stores() {
+    var box = el('div', 'stores');
+    var a = el('a'); a.href = APP_STORE;
+    var ai = el('img'); ai.src = '../obrazky/app-store.png'; ai.alt = 'Stiahnuť na App Store'; ai.width = 161; ai.height = 54;
+    a.appendChild(ai);
+    var g = el('a'); g.href = GOOGLE_PLAY;
+    var gi = el('img'); gi.src = '../obrazky/google-play.png'; gi.alt = 'Získajte to na Google Play'; gi.width = 140; gi.height = 54;
+    g.appendChild(gi);
+    box.appendChild(a); box.appendChild(g);
+    return box;
+  }
+
+  function showMessage(className, title, text) {
+    var card = el('div', 'card ' + className);
+    card.appendChild(el('p', null, title)).style.fontWeight = 'bold';
+    card.appendChild(el('p', 'hint', text));
+    main.appendChild(card);
+    var get = el('div', 'card');
+    get.appendChild(el('p', 'hint', 'Aplikácia Rosario je zadarmo, bez reklám a bez registrácie.'));
+    get.appendChild(stores());
+    main.appendChild(get);
+  }
+
+  var data = location.hash.replace(/^#/, '').replace(/^d=/, '');
+  if (!data) {
+    showMessage('notice', 'Tu sa zobrazuje ruža Živého ruženca.',
+      'Otvorte odkaz, ktorý vám poslal horliteľ vašej ruže (napríklad cez WhatsApp alebo SMS). Ukáže sa v ňom, ktoré tajomstvo sa modlíte.');
+    return;
+  }
+  var rose = decode(data);
+  if (!rose) {
+    showMessage('error', 'Tento odkaz sa nedá prečítať.',
+      'Možno sa pri kopírovaní neskopíroval celý. Poproste horliteľa, aby vám ho poslal znova.');
+    return;
+  }
+
+  var lead = rose.lead === true;
+  main.querySelector('h1').textContent = rose.n || 'Ruža';
+  document.title = (rose.n || 'Ruža') + ' · Rosario';
+
+  var since = formatDate(rose.s);
+  var next = formatDate(rose.x);
+  var dates = el('p', 'dates');
+  if (since) { dates.appendChild(document.createTextNode('Tajomstvá od ')); dates.appendChild(el('b', null, since)); }
+  if (next) { dates.appendChild(document.createTextNode((since ? ' · ' : '') + 'ďalšia výmena ')); dates.appendChild(el('b', null, next)); }
+  if (since || next) main.appendChild(dates);
+
+  // Tlačidlo, ktoré otvorí ružu v aplikácii; údaje idú v ?d=, lebo intent:// používa # pre seba
+  var android = /Android/i.test(navigator.userAgent);
+  var appUrl = android
+    ? 'intent://ruza?d=' + data + '#Intent;scheme=rosario;package=sk.rosario.app;S.browser_fallback_url=' + encodeURIComponent(GOOGLE_PLAY) + ';end'
+    : 'rosario://ruza?d=' + data;
+
+  var open = el('div', 'card' + (lead ? ' notice' : ''));
+  if (lead) {
+    open.appendChild(el('p', null, 'Tento odkaz slúži na odovzdanie ruže novému horliteľovi.')).style.fontWeight = 'bold';
+    open.appendChild(el('p', 'hint', 'Otvorte ho v telefóne nového horliteľa. Ruža sa uloží do aplikácie Rosario a dá sa v nej upravovať.'));
+  }
+  var button = el('a', 'open', 'Otvoriť v aplikácii Rosario');
+  button.href = appUrl;
+  open.appendChild(button);
+  open.appendChild(el('p', 'hint', 'Ak aplikáciu ešte nemáte, stiahnite si ju zadarmo a potom ťuknite na odkaz znova:'));
+  open.appendChild(stores());
+  main.appendChild(open);
+
+  if (Array.isArray(rose.u) && rose.u.length) {
+    main.appendChild(el('h2', null, 'Úmysly'));
+    var card = el('div', 'card');
+    var list = el('ul', 'intentions');
+    rose.u.forEach(function (u) { list.appendChild(el('li', null, String(u))); });
+    card.appendChild(list);
+    main.appendChild(card);
+  }
+
+  // Kto sa modlí ktoré tajomstvo; jedno tajomstvo môže mať aj viac ľudí
+  var byMystery = [];
+  for (var i = 0; i < 20; i++) byMystery.push([]);
+  rose.m.forEach(function (seat) {
+    var m = parseInt(seat.m, 10);
+    if (m >= 0 && m < 20 && seat.n) byMystery[m].push(String(seat.n));
+  });
+
+  main.appendChild(el('h2', null, 'Tajomstvá'));
+  var all = el('div', 'card');
+  GROUPS.forEach(function (group, g) {
+    var box = el('div', 'group');
+    box.appendChild(el('h3', null, group[0]));
+    group[2].forEach(function (title, j) {
+      var row = el('div', 'row');
+      row.appendChild(el('span', 'num', (j + 1) + '.'));
+      var text = el('span', 'title');
+      var names = byMystery[g * 5 + j];
+      text.appendChild(el('span', 'who' + (names.length ? '' : ' free'), names.length ? names.join(', ') : 'voľné'));
+      text.appendChild(document.createTextNode(title));
+      row.appendChild(text);
+      box.appendChild(row);
+    });
+    all.appendChild(box);
+  });
+  main.appendChild(all);
+})();
+</script>
+</body>
+</html>
